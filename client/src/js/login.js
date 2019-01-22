@@ -5,10 +5,10 @@ import { ControlLabel } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
 // import { Redirect } from 'react-router-dom';
 import { userService } from '../util/userService';
-import { Provider } from 'react-redux';
-import store from '../util/store';
-import { connect} from 'react-redux';
-import { getAuthHeader} from '../util/actions/authActions';
+// import { Provider } from 'react-redux';
+// import store from '../util/store';
+// import { connect} from 'react-redux';
+// import { getAuthHeader} from '../util/actions/authActions';
 
 
 class Login extends React.Component {

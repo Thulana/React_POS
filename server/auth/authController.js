@@ -39,10 +39,5 @@ module.exports = {
             }
         });
     },
-    // getMovies: function (req, res) {
-    //     //do something
-    // },
-    // postMovie: function (req, res) {
-    //     //do something
-    // }
+    
 }

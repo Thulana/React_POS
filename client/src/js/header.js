@@ -17,6 +17,7 @@ const Header = () => (
                 <a href="/">Point of Sale System</a>
             </h1>
         </div>
+        {/* Component taken from React Bootstrap */}
         <Navbar>
             <Navbar.Header>
                 <Navbar.Brand>

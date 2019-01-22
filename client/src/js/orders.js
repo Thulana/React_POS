@@ -1,17 +1,13 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
-// import Auth from '../util/auth';
 import { authHeader } from '../util/authHeader'
 import { Redirect } from 'react-router-dom'
-// The Header creates links that can be used to navigate
-// between routes.
-
 import { Button } from 'react-bootstrap';
-import { FormGroup } from 'react-bootstrap';
-import { ControlLabel } from 'react-bootstrap';
-import { FormControl } from 'react-bootstrap';
-import Home from './home';
+// import { FormGroup } from 'react-bootstrap';
+// import { ControlLabel } from 'react-bootstrap';
+// import { FormControl } from 'react-bootstrap';
+// import Home from './home';
 
 
 class Orders extends React.Component {

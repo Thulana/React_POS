@@ -47,10 +47,6 @@ module.exports = {
     save_order: function (req,res) {
        console.log("save working",req.body.order);
        Datastore.orders.update({ _id: req.body.order['_id'] }, { $set: { items: req.body.order['items'] } }, { multi: false }, function (err, numReplaced) {
-        // numReplaced = 1
-        // The doc #3 has been replaced by { _id: 'id3', planet: 'Pluton' }
-        // Note that the _id is kept unchanged, and the document has been replaced
-        // (the 'system' and inhabited fields are not here anymore)
         console.log(err,numReplaced);
       });
       Datastore.orders.persistence.compactDatafile();

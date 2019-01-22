@@ -4,9 +4,9 @@ import { authHeader } from '../util/authHeader';
 import { Button } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
 import { ControlLabel } from 'react-bootstrap';
-import { Label } from 'react-bootstrap';
+// import { Label } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
-import { Alert } from 'react-bootstrap';
+// import { Alert } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
@@ -15,7 +15,6 @@ import { createBrowserHistory } from 'history';
 
 
 class viewOrder extends React.Component {
-    // initially data is empty in state
     constructor(props) {
         super(props)
         this.state = {
@@ -56,9 +55,6 @@ class viewOrder extends React.Component {
                     });
                     this.updateTotal();
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
                     console.log(error);
                     this.setState({
@@ -100,9 +96,6 @@ class viewOrder extends React.Component {
                 (result) => {
 
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -324,8 +317,6 @@ class viewOrder extends React.Component {
                             <ControlLabel>Total  :   </ControlLabel>{' '}
                             <FormControl type="number" value={this.state.total} ></FormControl>
                         </FormGroup>{' '}
-                        {/* <Button className="btn-success" onClick={() => { this.addItem() }}>Add Item</Button>
-                        <Button className="btn-success" onClick={() => { }}>Save Order</Button> */}
                     </Form>
                     <br></br>
                     <Row className="show-grid">
