@@ -11,7 +11,8 @@
     "express": "^4.16.4",
     "jsonwebtoken": "^8.4.0",
     "nedb": "^1.8.0",
-    "node-persist": "^3.0.2"
+    "node-persist": "^3.0.2",
+    "supertest": "^3.4.1"
   },
   "devDependencies": {
     "babel-jest": "^23.6.0",

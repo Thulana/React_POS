@@ -4,6 +4,7 @@ import Login from './login';
 import Home from './home';
 import Orders from './orders';
 import viewOrder from './viewOrder';
+import errorPage from './errorPage';
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -17,6 +18,7 @@ const Main = () => (
       <Route path='/login' component={Login}/>
       <Route path='/orders' component={Orders}/>
       <Route path='/order' component={viewOrder}/>
+      <Route component={errorPage}/>
     </Switch>
   </main>
 )

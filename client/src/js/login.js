@@ -29,14 +29,9 @@ class Login extends React.Component {
         this.setState({ password: event.target.value });
     }
 
-
-    handleSubmit(event) {
-        
-        event.preventDefault();
-    }
-
     handleSubmit = async e => {
         e.preventDefault();
+        console.log(this.state.username, this.state.password);
         userService.login(this.state.username, this.state.password).then((data) =>{
             // console.log(data);
             if(data.success === true){
@@ -81,9 +76,10 @@ class Login extends React.Component {
                             />
 
                         </FormGroup>
-                        <Button type="Login">Submit</Button>
+                        <Button type="submit" className='btn-success'>Login</Button>
                     </form>
                 </div>
+               
             </div>
             // </Provider>
         );
