@@ -11,7 +11,6 @@ import { Button } from 'react-bootstrap';
 
 
 class Orders extends React.Component {
-    // initially data is empty in state
     constructor() {
         super()
         this.state = {
@@ -34,9 +33,7 @@ class Orders extends React.Component {
                         data: result.orders
                     });
                 },
-                // Note: it's important to handle errors here
-                // instead of a catch() block so that we don't swallow
-                // exceptions from actual bugs in components.
+
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -49,12 +46,9 @@ class Orders extends React.Component {
     viewOrder = (oid) => {
        this.setState({showItem: true, itemId:oid});
 
-        // alert(oid);
     }
     render() {
-
         let user = JSON.parse(localStorage.getItem('user'));
-        // alert(user.token);
         if (user && user.token) {
             console.log('Authentication successful');
         } else {
@@ -99,6 +93,7 @@ class Orders extends React.Component {
 
                     </tbody>
                 </Table>
+                <Button bsStyle="primary" onClick={()=>{ this.props.history.push({pathname:'/order',state:{ oid:'new'}})}}>Add New Order</Button>
             </div>
         );
     }

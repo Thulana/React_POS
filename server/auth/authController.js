@@ -4,7 +4,7 @@ let config = require('../util/config');
 
 module.exports = {
     login: function (req, res) {
-        // console.log(req.body);
+        console.log(req.body);
         var password = req.body.password
         var username = req.body.username
         Datastore.users.findOne({ name: username }, function (err, doc) {

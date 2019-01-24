@@ -10,8 +10,8 @@ import { FormControl } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Form } from 'react-bootstrap';
-import { createBrowserHistory } from 'history';
-
+import { withRouter } from "react-router";
+import { orderService } from "../util/orderService";
 
 
 class viewOrder extends React.Component {
@@ -27,104 +27,111 @@ class viewOrder extends React.Component {
         this.updateTotal = this.updateTotal.bind(this);
 
     }
-    history = createBrowserHistory();
     componentDidMount() {
-        const requestOptions = {
-            method: 'POST',
-            headers: authHeader(),
-            body: JSON.stringify({
-                oid: this.props.location.state.oid,
-            }),
-        }
-        fetch("/api/view_order", requestOptions)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({
-                        order: result.order,
-                        items: result.items,
-                        itemList: result.itemList
-                    });
-                    let itemOpts = [];
-                    itemOpts.push(<option > Select a Item </option>);
-                    result.itemList.forEach(element => {
-                        itemOpts.push(<option key={element['id']} value={element['id']}> {element['name']} </option>);
-                    });
-                    this.setState({
-                        itemOptions: itemOpts
-                    });
-                    this.updateTotal();
-                },
-                (error) => {
-                    console.log(error);
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
+        if (this.props.location.state.oid !== 'new') {
+                const requestOptions = {
+                    method: 'POST',
+                    headers: authHeader(),
+                    body: JSON.stringify({
+                        oid: this.props.location.state.oid,
+                    }),
                 }
-            )
-            this.props.history.listen((location, action) => {
-                console.log(
-                    `The current URL is ${location.pathname}${location.search}${location.hash}`
-                );
-                console.log(`The last navigation action was ${action}`);
-            });
-        console.log("component mounted.");
-    }
+                fetch("/api/view_order", requestOptions)
+                    .then(res => res.json())
+                    .then(
+                        (result) => {
+                            this.setState({
+                                order: result.order,
+                                items: result.items,
+                                itemList: result.itemList
+                            });
+                            let itemOpts = [];
+                            itemOpts.push(<option > Select a Item </option>);
+                            result.itemList.forEach(element => {
+                                itemOpts.push(<option key={element['id']} value={element['id']}> {element['name']} </option>);
+                            });
+                            this.setState({
+                                itemOptions: itemOpts
+                            });
+                            this.updateTotal();
+                        },
+                        (error) => {
+                            console.log(error);
+                            this.setState({
+                                isLoaded: true,
+                                error
+                            });
+                        }
+                    )
+            
+        } else {
+            const requestOptions = {
+                method: 'GET',
+                headers: authHeader()
+            }
+            fetch("/api/get_items", requestOptions)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        this.setState({
+                            itemList: result.items
+                        });
+                        let itemOpts = [];
+                        itemOpts.push(<option > Select a Item </option>);
+                        result.items.forEach(element => {
+                            itemOpts.push(<option key={element['id']} value={element['id']}> {element['name']} </option>);
+                        });
+                        this.setState({
+                            itemOptions: itemOpts,
+                            order: {
+                                id: '',
+                                customer: '',
+                                state: 'open',
+                                items: {}
+                            }
+                        });
 
-    // componentWillUnmount() {
-    //     console.log("time to save =++++++++++++++++++++++++++++=");
-    // }
-    // routerWillLeave(nextLoc) {
-    //     this.saveOrder();
-    // }
+                        this.updateTotal();
+                        this.addItem();
+                    },
+                    (error) => {
+                        console.log(error);
+                        this.setState({
+                            isLoaded: true,
+                            error
+                        });
+                    }
+                )
 
-    onRouteChanged() {
-        console.log("route changed");
-        this.saveOrder();
+        }
+
     }
 
     saveOrder = () => {
-        const requestOptions = {
-            method: 'POST',
-            headers: authHeader(),
-            body: JSON.stringify({ order: this.state.order })
-        };
-        fetch("/api/save_order", requestOptions)
-            .then(res => res.json())
-            .then(
-                (result) => {
-
-                },
-                (error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
-                }
-            )
+        var data = orderService.save_order(this.state.order);
+        console.log("order saved", data);
     }
     changeSubTotal = (e, id) => {
-        console.log('e value', e.currentTarget.innerText);
+        console.log('e value', e.target.value);
         let order = this.state.order;
-        if (e.currentTarget.innerText === '') {
-            order.items[id] = 0;
-        } else {
-            order.items[id] = parseInt(e.currentTarget.innerText);
-        }
+        // if (e.target.value === '') {
+        //     order.items[id] = 0;
+        // } else {
+        order.items[id] = parseInt(e.target.value);
+        // }
         this.setState({ order: order });
         this.updateTotal();
+        this.saveOrder();
     }
 
     removeItem = (oid) => {
         let newItems = [];
         this.state.items.forEach(element => {
-            if (element['id'] != oid) {
+            if (element['id'] !== oid) {
                 newItems.push(element);
             }
         });
         let newOrder = this.state.order;
-        let newItemList = {};
         for (var key in newOrder.items) {
             if (parseInt(key) === oid) {
                 // console.log("found to remove");
@@ -135,6 +142,8 @@ class viewOrder extends React.Component {
             items: newItems,
             order: newOrder
         });
+        this.updateTotal();
+        this.saveOrder();
 
     }
 
@@ -157,7 +166,7 @@ class viewOrder extends React.Component {
             }
             console.log(itemNo, element['id'])
             if (selectedItem['id'] === element['id']) {
-                alert("this item is already added");
+                alert("This item is already added");
                 return
                 //     return (<Alert bsStyle="warning">
                 //         <strong>This item is already added</strong>
@@ -174,6 +183,7 @@ class viewOrder extends React.Component {
             items: items
         });
         this.updateTotal();
+        this.saveOrder();
 
     }
     addItem = () => {
@@ -216,7 +226,7 @@ class viewOrder extends React.Component {
         } else {
             this.props.history.push('/login')
         }
-        
+
         // alert();
 
         // if (logged == {}) {
@@ -229,26 +239,46 @@ class viewOrder extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className='col-lg-6 col-lg-offset-3'>
                         <FormGroup
-                            controlId="OrderID"
+
                         //   validationState={this.getValidationState()}
                         >
-                            <ControlLabel>Order ID</ControlLabel>
-                            <FormControl
+                            <label >Order ID : </label>
+                            <input
+                                className="form-control"
                                 type="text"
+                                id="id_input"
                                 value={this.state.order.id}
                                 placeholder="Enter orderID"
-                            // onChange={this.handleChangeUsername}
+                                onChange={(e) => {
+                                    let val = e.target.value;
+                                    let order = this.state.order;
+                                    order['id'] = val;
+                                    this.setState({
+                                        order: order,
+                                    });
+                                    // this.saveOrder();
+                                }}
                             />
                         </FormGroup>
                         <FormGroup
-                            controlId="cusName"
                         //   validationState={this.getValidationState()}
                         >
                             <ControlLabel>Customer Name</ControlLabel>
-                            <FormControl
+                            <input
                                 type="text"
-                                value={this.state.order.customer}
+                                id="name_input"
+                                className="form-control"
+                                defaultValue={this.state.order.customer}
                                 placeholder="Enter customer"
+                                onChange={(e) => {
+                                    let val = e.target.value;
+                                    let order = this.state.order;
+                                    order['customer'] = val;
+                                    this.setState({
+                                        order: order,
+                                    });
+                                    // this.saveOrder();
+                                }}
                             // onChange={this.handleChangePassword}
                             />
 
@@ -279,9 +309,21 @@ class viewOrder extends React.Component {
                                             <tr key={key}>
                                                 <td>{val}</td>
                                                 <td>{item.id}</td>
-                                                <td><select onChange={e => this.selectItemChange(e, val)} id={val}>{this.state.itemOptions}</select></td>
+                                                <td><select className="form-control" onChange={e => this.selectItemChange(e, val)} id={val}>{this.state.itemOptions}</select></td>
                                                 <td>{item.price}</td>
-                                                <td contentEditable='true' onInput={e => this.changeSubTotal(e, val)}>{this.state.order.items[item.id]}</td>
+                                                {/* <td contentEditable='true' onInput={e => this.changeSubTotal(e, val)}>{this.state.order.items[item.id]}</td> */}
+                                                <td className='col-md-2'>
+                                                    <input
+                                                        min="0"
+                                                        id={item.name}
+                                                        type="number"
+                                                        className="form-control"
+                                                        value={this.state.order.items[item.id]}
+                                                        placeholder="Enter qty"
+                                                        onChange={e => this.changeSubTotal(e, item.id)}
+                                                    />
+
+                                                </td>
                                                 <td>{item.price * this.state.order.items[item.id]}</td>
                                                 <td><Button bsStyle="danger" onClick={() => { this.removeItem(item.id) }}>X</Button></td>
                                             </tr>
@@ -293,7 +335,19 @@ class viewOrder extends React.Component {
                                                 <td>{item.id}</td>
                                                 <td>{item.name}</td>
                                                 <td>{item.price}</td>
-                                                <td contentEditable='true' onInput={e => this.changeSubTotal(e, item.id)}>{this.state.order.items[item.id]}</td>
+                                                {/* <td contentEditable='true' onInput={e => this.changeSubTotal(e, item.id)}>{this.state.order.items[item.id]}</td> */}
+                                                <td className='col-md-2'>
+                                                    <input
+                                                        min="0"
+                                                        id={item.name}
+                                                        type="number"
+                                                        className="form-control"
+                                                        value={this.state.order.items[item.id]}
+                                                        placeholder="Enter qty"
+                                                        onChange={e => this.changeSubTotal(e, item.id)}
+                                                    />
+
+                                                </td>
                                                 {
                                                     isNaN(item.price * this.state.order.items[item.id]) ? (
                                                         <td>{0}</td>
@@ -312,21 +366,30 @@ class viewOrder extends React.Component {
 
                         </tbody>
                     </Table>
-                    <Form inline>
-                        <FormGroup controlId="formInlineName">
-                            <ControlLabel>Total  :   </ControlLabel>{' '}
-                            <FormControl type="number" value={this.state.total} ></FormControl>
-                        </FormGroup>{' '}
-                    </Form>
+
+
+
+
+
                     <br></br>
                     <Row className="show-grid">
                         <Col md={2}  >
                             <Button className="btn-success" onClick={() => { this.addItem() }}>Add Item</Button>
 
                         </Col>
-                        <Col md={2} mdOffset={8}  >
-                            <Button className="btn-success" onClick={() => { this.saveOrder() }}>Save Order</Button>
+                        <Col md={2} mdOffset={4}  >
+                            <ControlLabel>Total  :   </ControlLabel>{' '}
+
                         </Col>
+                        <Col md={2}><FormControl type="number" value={this.state.total} ></FormControl></Col>
+
+                        <Col md={2}  >
+                            <Button className="btn-success" onClick={() => { this.saveOrder() }}>Save Order</Button>
+
+                        </Col>
+                        {/* <Col md={2} mdOffset={8}  >
+                            <Button className="btn-success" onClick={() => { this.saveOrder() }}>Save Order</Button>
+                        </Col> */}
 
 
 
@@ -339,4 +402,4 @@ class viewOrder extends React.Component {
     }
 }
 
-export default viewOrder
+export default withRouter(viewOrder)

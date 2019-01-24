@@ -1,0 +1,151 @@
+{
+    "info": {
+        "title": "POS API",
+        "version": "1.0.0",
+        "description": "Pos System swagger doc"
+    },
+    "swagger": "2.0",
+    "paths": {
+        "/api/view_orders": {
+            "post": {
+                "description": "Fetch all the open orders in the system",
+                "tags": [
+                    "Orders"
+                ],
+                "parameters": [
+                    {
+                        "name": "auth token",
+                        "description": "jwt auth token",
+                        "in": "json",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Orders found"
+                    },
+                    "400": {
+                        "description": "Error occured"
+                    }
+                }
+            }
+        },
+        "/api/view_order": {
+            "post": {
+                "description": "Fetch all the details of a given order",
+                "tags": [
+                    "Orders"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "auth token",
+                        "description": "jwt auth token",
+                        "in": "json",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "oid",
+                        "description": "Order Id",
+                        "in": "json",
+                        "required": true,
+                        "type": "number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order found"
+                    },
+                    "400": {
+                        "description": "Order not found"
+                    }
+                }
+            }
+        },
+        "/api/save_order": {
+            "post": {
+                "description": "Save order to the database",
+                "tags": [
+                    "Orders"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "auth token",
+                        "description": "jwt auth token",
+                        "in": "json",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "order",
+                        "description": "Order object",
+                        "in": "json",
+                        "required": true,
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "order saved successfully"
+                    },
+                    "400": {
+                        "description": "Order not saved properly"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "description": "Login to the application1",
+                "tags": [
+                    "Users"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "username",
+                        "description": "User's username.",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "password",
+                        "description": "User's password.",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "login successful"
+                    },
+                    "400": {
+                        "description": "Authentication failed!"
+                    },
+                    "403": {
+                        "description": "Incorrect username or password"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {},
+    "responses": {},
+    "parameters": {},
+    "securityDefinitions": {},
+    "tags": []
+}
