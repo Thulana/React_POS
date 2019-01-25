@@ -26,41 +26,41 @@ class viewOrder extends React.Component {
     }
     componentDidMount() {
         if (this.props.location.state.oid !== 'new') {
-                const requestOptions = {
-                    method: 'POST',
-                    headers: authHeader(),
-                    body: JSON.stringify({
-                        oid: this.props.location.state.oid,
-                    }),
-                }
-                fetch("/api/view_order", requestOptions)
-                    .then(res => res.json())
-                    .then(
-                        (result) => {
-                            this.setState({
-                                order: result.order,
-                                items: result.items,
-                                itemList: result.itemList
-                            });
-                            let itemOpts = [];
-                            itemOpts.push(<option > Select a Item </option>);
-                            result.itemList.forEach(element => {
-                                itemOpts.push(<option key={element['id']} value={element['id']}> {element['name']} </option>);
-                            });
-                            this.setState({
-                                itemOptions: itemOpts
-                            });
-                            this.updateTotal();
-                        },
-                        (error) => {
-                            console.log(error);
-                            this.setState({
-                                isLoaded: true,
-                                error
-                            });
-                        }
-                    )
-            
+            const requestOptions = {
+                method: 'POST',
+                headers: authHeader(),
+                body: JSON.stringify({
+                    oid: this.props.location.state.oid,
+                }),
+            }
+            fetch("/api/view_order", requestOptions)
+                .then(res => res.json())
+                .then(
+                    (result) => {
+                        this.setState({
+                            order: result.order,
+                            items: result.items,
+                            itemList: result.itemList
+                        });
+                        let itemOpts = [];
+                        itemOpts.push(<option > Select a Item </option>);
+                        result.itemList.forEach(element => {
+                            itemOpts.push(<option key={element['id']} value={element['id']}> {element['name']} </option>);
+                        });
+                        this.setState({
+                            itemOptions: itemOpts
+                        });
+                        this.updateTotal();
+                    },
+                    (error) => {
+                        console.log(error);
+                        this.setState({
+                            isLoaded: true,
+                            error
+                        });
+                    }
+                )
+
         } else {
             const requestOptions = {
                 method: 'GET',
@@ -207,11 +207,12 @@ class viewOrder extends React.Component {
             this.props.history.push('/login')
         }
 
-        
+
         var val = 0;
         console.log(this.state.items);
         return (
             <div className='col-md-6 col-lg-offset-3'>
+                <h2>Order Details</h2>
                 <form onSubmit={this.handleSubmit}>
                     <div className='col-lg-6 col-lg-offset-3'>
                         <FormGroup
@@ -230,7 +231,7 @@ class viewOrder extends React.Component {
                                     this.setState({
                                         order: order,
                                     });
-                                    
+
                                 }}
                             />
                         </FormGroup>
@@ -303,7 +304,7 @@ class viewOrder extends React.Component {
                                                 <td>{val}</td>
                                                 <td>{item.id}</td>
                                                 <td>{item.name}</td>
-                                                <td>{item.price}</td>                                          
+                                                <td>{item.price}</td>
                                                 <td className='col-md-2'>
                                                     <input
                                                         min="0"

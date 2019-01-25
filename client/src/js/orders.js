@@ -41,7 +41,7 @@ class Orders extends React.Component {
     }
 
     viewOrder = (oid) => {
-       this.setState({showItem: true, itemId:oid});
+        this.setState({ showItem: true, itemId: oid });
 
     }
     saveOrder = (order) => {
@@ -49,11 +49,11 @@ class Orders extends React.Component {
     }
     removeItem = (id) => {
         let ordersTemp = [];
-        for (let key in this.state.data){
+        for (let key in this.state.data) {
             let order = this.state.data[key];
-            if (order['id'] !== id ){
+            if (order['id'] !== id) {
                 ordersTemp.push(order);
-            }else{
+            } else {
                 let edited = order;
                 edited['state'] = "closed";
                 this.saveOrder(edited);
@@ -73,6 +73,7 @@ class Orders extends React.Component {
         var val = 0;
         return (
             <div>
+                <h2>Order List</h2>
                 <Table striped bordered condensed hover>
                     <thead>
                         <tr>
@@ -80,7 +81,7 @@ class Orders extends React.Component {
                             <th>Order ID</th>
                             <th>Customer Name</th>
                             <th>Edit</th>
-                            <th>X</th>
+                            <th>Complete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,7 +109,7 @@ class Orders extends React.Component {
 
                     </tbody>
                 </Table>
-                <Button bsStyle="primary" onClick={()=>{ this.props.history.push({pathname:'/order',state:{ oid:'new'}})}}>Add New Order</Button>
+                <Button bsStyle="primary" onClick={() => { this.props.history.push({ pathname: '/order', state: { oid: 'new' } }) }}>Add New Order</Button>
             </div>
         );
     }

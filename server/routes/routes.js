@@ -18,7 +18,7 @@ module.exports.setup = function (app) {
  * /api/get_items:
  *   post:
  *     description: Fetch all the items in the system
- *     tags: [Orders]
+ *     tags: [Items]
  *     parameters:
  *       - name: auth token
  *         description: jwt auth token

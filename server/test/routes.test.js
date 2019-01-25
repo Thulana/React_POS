@@ -25,7 +25,7 @@ describe('api login success', function() {
       request
         .post('/api/login').send(data)
         .end(function(err, res) {
-          console.log(res);  
+        //   console.log(res);  
           expect(res.statusCode).toBe(200);
           expect(res.body.message).toBe('Authentication successful!');
           done();
@@ -39,7 +39,7 @@ describe('api login success', function() {
       request
         .post('/api/login').send(data)
         .end(function(err, res) {
-          console.log(res);  
+        //   console.log(res);  
           expect(res.body.success).toBe(false);
           expect(res.body.message).toBe('Incorrect username or password');
           done();

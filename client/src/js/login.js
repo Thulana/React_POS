@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
 import { ControlLabel } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
+import { Jumbotron } from 'react-bootstrap';
 import { userService } from '../util/userService';
 
 
@@ -26,21 +27,22 @@ class Login extends React.Component {
 
     handleSubmit = async e => {
         e.preventDefault();
-        userService.login(this.state.username, this.state.password).then((data) =>{
-            if(data.success === true){
+        userService.login(this.state.username, this.state.password).then((data) => {
+            if (data.success === true) {
                 this.props.history.push('/orders')
-            }else{
+            } else {
                 alert("login fail. Please try again.");
                 this.props.history.push('/login')
             }
         });
-        
+
     };
 
     render() {
         return (
             <div className="d-flex justify-content-between">
                 <div className="col-md-4 col-lg-offset-4"  >
+                <Jumbotron>
                     <form onSubmit={this.handleSubmit}>
                         <FormGroup
                             controlId="usernameText"
@@ -68,8 +70,9 @@ class Login extends React.Component {
                         </FormGroup>
                         <Button type="submit" className='btn-success'>Login</Button>
                     </form>
+                    </Jumbotron>
                 </div>
-               
+
             </div>
         );
     }

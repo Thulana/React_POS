@@ -11,7 +11,7 @@ module.exports = {
                 });
             };
             // resolve(docs);
-            console.log(docs);
+            // console.log(docs);
             cb({ items: docs });
 
         });
