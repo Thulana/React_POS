@@ -2,7 +2,7 @@ var Datastore = require('../util/db');
 
 module.exports = {
     view_orders: function (cb) {
-        Datastore.orders.find({}, function (err, docs) {
+        Datastore.orders.find({state:'open'}, function (err, docs) {
             if (err) {
                 return cb({
                     success: false,

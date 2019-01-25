@@ -5,7 +5,8 @@
     "client": "cd client && yarn start",
     "server": "cd server && nodemon server.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
-    "test": "jest"
+    "test": "jest",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",

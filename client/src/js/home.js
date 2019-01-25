@@ -11,7 +11,7 @@ class Home extends React.Component {
          }else{
             this.props.history.push('/login')
          }
-        //  throw new Error('this will get caught');
+
         return (
             
             <div>

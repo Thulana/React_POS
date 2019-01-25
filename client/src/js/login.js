@@ -3,12 +3,7 @@ import { Button } from 'react-bootstrap';
 import { FormGroup } from 'react-bootstrap';
 import { ControlLabel } from 'react-bootstrap';
 import { FormControl } from 'react-bootstrap';
-// import { Redirect } from 'react-router-dom';
 import { userService } from '../util/userService';
-// import { Provider } from 'react-redux';
-// import store from '../util/store';
-// import { connect} from 'react-redux';
-// import { getAuthHeader} from '../util/actions/authActions';
 
 
 class Login extends React.Component {
@@ -31,9 +26,7 @@ class Login extends React.Component {
 
     handleSubmit = async e => {
         e.preventDefault();
-        console.log(this.state.username, this.state.password);
         userService.login(this.state.username, this.state.password).then((data) =>{
-            // console.log(data);
             if(data.success === true){
                 this.props.history.push('/orders')
             }else{
@@ -46,13 +39,11 @@ class Login extends React.Component {
 
     render() {
         return (
-            // <Provider store={store}>
             <div className="d-flex justify-content-between">
                 <div className="col-md-4 col-lg-offset-4"  >
                     <form onSubmit={this.handleSubmit}>
                         <FormGroup
                             controlId="usernameText"
-                        //   validationState={this.getValidationState()}
                         >
                             <ControlLabel>Username</ControlLabel>
                             <FormControl
@@ -65,7 +56,6 @@ class Login extends React.Component {
                         </FormGroup>
                         <FormGroup
                             controlId="passwordText"
-                        //   validationState={this.getValidationState()}
                         >
                             <ControlLabel>Password</ControlLabel>
                             <FormControl
@@ -81,13 +71,8 @@ class Login extends React.Component {
                 </div>
                
             </div>
-            // </Provider>
         );
     }
 }
-// const mapStateToProps = (state) => {
-//     return{
-//         auth: state.auth
-//     }
-// };
+
 export default Login

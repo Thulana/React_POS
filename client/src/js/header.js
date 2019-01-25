@@ -1,13 +1,9 @@
-import React from 'react'
-// import { Link } from 'react-router-dom'
+import React from 'react';
 import { Navbar } from 'react-bootstrap';
-import { userService } from '../util/userService'
-// The Header creates links that can be used to navigate
-// between routes.
+import { userService } from '../util/userService';
 
 function handleClick(e) {
     userService.logout()
-    // this.props.history.push('/login')
 };
 const Header = () => (
 

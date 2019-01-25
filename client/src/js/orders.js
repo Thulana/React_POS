@@ -1,13 +1,10 @@
 import React from 'react'
-// import { Link } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
 import { authHeader } from '../util/authHeader'
 import { Redirect } from 'react-router-dom'
 import { Button } from 'react-bootstrap';
-// import { FormGroup } from 'react-bootstrap';
-// import { ControlLabel } from 'react-bootstrap';
-// import { FormControl } from 'react-bootstrap';
-// import Home from './home';
+import { orderService } from '../util/orderService';
+
 
 
 class Orders extends React.Component {
@@ -47,6 +44,25 @@ class Orders extends React.Component {
        this.setState({showItem: true, itemId:oid});
 
     }
+    saveOrder = (order) => {
+        orderService.save_order(order);
+    }
+    removeItem = (id) => {
+        let ordersTemp = [];
+        for (let key in this.state.data){
+            let order = this.state.data[key];
+            if (order['id'] !== id ){
+                ordersTemp.push(order);
+            }else{
+                let edited = order;
+                edited['state'] = "closed";
+                this.saveOrder(edited);
+            }
+        }
+        this.setState({
+            data: ordersTemp
+        });
+    }
     render() {
         let user = JSON.parse(localStorage.getItem('user'));
         if (user && user.token) {
@@ -54,9 +70,6 @@ class Orders extends React.Component {
         } else {
             this.props.history.push('/login')
         }
-        // if (logged == {}) {
-        //     this.props.history.push('/login')
-        // }
         var val = 0;
         return (
             <div>
@@ -67,6 +80,7 @@ class Orders extends React.Component {
                             <th>Order ID</th>
                             <th>Customer Name</th>
                             <th>Edit</th>
+                            <th>X</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,18 +89,18 @@ class Orders extends React.Component {
                             this.state.data.map((item, key) => {
                                 val = val + 1
                                 return (
-                                
                                     <tr key={key}>
                                         <td>{val}</td>
                                         <td>{item.id}</td>
                                         <td>{item.customer}</td>
-                                        <td><Button type="submit" onClick={() => { this.viewOrder(item.id) }}>Edit</Button>
+                                        <td><Button bsStyle="success" type="submit" onClick={() => { this.viewOrder(item.id) }}>Edit</Button>
                                             {this.state.showItem ? <Redirect to={{
                                                 pathname: '/order',
                                                 state: { oid: this.state.itemId }
                                             }}
                                             /> : null}
                                         </td>
+                                        <td><Button bsStyle="danger" onClick={() => { this.removeItem(item.id) }}>Pay</Button></td>
                                     </tr>
                                 )
                             })
