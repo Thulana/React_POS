@@ -3,10 +3,10 @@ let jwt = require('jsonwebtoken');
 let config = require('../util/config');
 
 module.exports = {
-    login: function (req, res) {
-        console.log(req.body);
-        var password = req.body.password
-        var username = req.body.username
+    login: function (username,password, cb) {
+        // console.log(req.body);
+        var password = password
+        var username = username
         Datastore.users.findOne({ name: username }, function (err, doc) {
             // console.log(doc);
             // console.log(err);
@@ -20,19 +20,19 @@ module.exports = {
                         }
                     );
                     // return the JWT token for the future API calls
-                    res.json({
+                    cb({
                         success: true,
                         message: 'Authentication successful!',
                         token: token
                     });
                 } else {
-                    res.send(403).json({
+                    cb({
                         success: false,
                         message: 'Incorrect username or password'
                     });
                 }
             } else {
-                res.send(400).json({
+                cb({
                     success: false,
                     message: 'Authentication failed! Please check the request'
                 });

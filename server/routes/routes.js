@@ -1,7 +1,6 @@
 const controller = require('../auth/authController')
 var express = require('express')
-var router = express.Router()
-let config = require('../util/config');
+// sg = require('../util/config');
 let middleware = require('../util/middleware');
 const authController = require('../auth/authController')
 const orderController = require('../order/orderController');
@@ -14,114 +13,131 @@ module.exports.setup = function (app) {
     next();
   });
 
-      /**
-     * @swagger
-     * /api/get_items:
-     *   post:
-     *     description: Fetch all the items in the system
-     *     tags: [Orders]
-     *     parameters:
-     *       - name: auth token
-     *         description: jwt auth token
-     *         in: json
-     *         required: true
-     *         type: string
-     *     produces:
-     *       - application/json
-     *     responses:
-     *       200:
-     *         description: Items found
-     *       400:
-     *         description: Error occured
-     */
+  /**
+ * @swagger
+ * /api/get_items:
+ *   post:
+ *     description: Fetch all the items in the system
+ *     tags: [Orders]
+ *     parameters:
+ *       - name: auth token
+ *         description: jwt auth token
+ *         in: json
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Items found
+ *       400:
+ *         description: Error occured
+ */
 
-    app.get('/api/get_items', middleware.checkToken, (req, res) => {
-      itemController.get_items(req, res);
-  
+  app.get('/api/get_items', middleware.checkToken, (req, res) => {
+    itemController.get_items((data)=>{
+      res.jsonp(data);
     });
-      /**
-     * @swagger
-     * /api/view_orders:
-     *   post:
-     *     description: Fetch all the open orders in the system
-     *     tags: [Orders]
-     *     parameters:
-     *       - name: auth token
-     *         description: jwt auth token
-     *         in: json
-     *         required: true
-     *         type: string
-     *     produces:
-     *       - application/json
-     *     responses:
-     *       200:
-     *         description: Orders found
-     *       400:
-     *         description: Error occured
-     */
+
+  });
+  /**
+ * @swagger
+ * /api/view_orders:
+ *   post:
+ *     description: Fetch all the open orders in the system
+ *     tags: [Orders]
+ *     parameters:
+ *       - name: auth token
+ *         description: jwt auth token
+ *         in: json
+ *         required: true
+ *         type: string
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: Orders found
+ *       400:
+ *         description: Error occured
+ */
 
   app.get('/api/view_orders', middleware.checkToken, (req, res) => {
-    orderController.view_orders(req, res);
+    orderController.view_orders((data) => {
+      res.jsonp(data);
+    });
 
+      // console.log(data);
+      // if ('err' in data) {
+      //   res.send(400).json({
+      //     success: false,
+      //     message: data.err
+      //   });
+      // };
+      // // console.log(docs);
+      // res.send({ orders: data.result });
   });
 
-    /**
-     * @swagger
-     * /api/view_order:
-     *   post:
-     *     description: Fetch all the details of a given order
-     *     tags: [Orders]
-     *     produces:
-     *       - application/json
-     *     parameters:
-     *       - name: auth token
-     *         description: jwt auth token
-     *         in: json
-     *         required: true
-     *         type: string
-     *       - name: oid
-     *         description: Order Id
-     *         in: json
-     *         required: true
-     *         type: number
-     *     responses:
-     *       200:
-     *         description: Order found
-     *       400:
-     *         description: Order not found
-     */
+  /**
+   * @swagger
+   * /api/view_order:
+   *   post:
+   *     description: Fetch all the details of a given order
+   *     tags: [Orders]
+   *     produces:
+   *       - application/json
+   *     parameters:
+   *       - name: auth token
+   *         description: jwt auth token
+   *         in: json
+   *         required: true
+   *         type: string
+   *       - name: oid
+   *         description: Order Id
+   *         in: json
+   *         required: true
+   *         type: number
+   *     responses:
+   *       200:
+   *         description: Order found
+   *       400:
+   *         description: Order not found
+   */
   app.post('/api/view_order', middleware.checkToken, (req, res) => {
-    orderController.view_order(req, res);
+    orderController.view_order(req.body.oid, (data)=>{
+      res.jsonp(data);
+    });
 
   });
 
-   /**
-     * @swagger
-     * /api/save_order:
-     *   post:
-     *     description: Save order to the database
-     *     tags: [Orders]
-     *     produces:
-     *       - application/json
-     *     parameters:
-     *       - name: auth token
-     *         description: jwt auth token
-     *         in: json
-     *         required: true
-     *         type: string
-     *       - name: order
-     *         description: Order object
-     *         in: json
-     *         required: true
-     *         type: object
-     *     responses:
-     *       200:
-     *         description: order saved successfully
-     *       400:
-     *         description: Order not saved properly
-     */
+  /**
+    * @swagger
+    * /api/save_order:
+    *   post:
+    *     description: Save order to the database
+    *     tags: [Orders]
+    *     produces:
+    *       - application/json
+    *     parameters:
+    *       - name: auth token
+    *         description: jwt auth token
+    *         in: json
+    *         required: true
+    *         type: string
+    *       - name: order
+    *         description: Order object
+    *         in: json
+    *         required: true
+    *         type: object
+    *     responses:
+    *       200:
+    *         description: order saved successfully
+    *       400:
+    *         description: Order not saved properly
+    */
   app.post('/api/save_order', middleware.checkToken, (req, res) => {
-    orderController.save_order(req, res);
+    orderController.save_order(req.body.order, (res)=>{
+      console.log('saved');
+    });
 
   });
   /**
@@ -153,7 +169,9 @@ module.exports.setup = function (app) {
      *      
      */
   app.post('/api/login', (req, res) => {
-    authController.login(req, res);
+    authController.login(req.body.username,req.body.password, (data)=>{
+      res.jsonp(data);
+    });
   });
 }
 

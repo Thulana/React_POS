@@ -1,18 +1,18 @@
 var Datastore = require('../util/db');
 
 module.exports = {
-    get_items: function(req,res){
+    get_items: function(cb){
         let items = [];
         Datastore.items.find({},function(err,docs){
             if (err) {
-                res.send(400).json({
+                cb({
                     success: false,
                     message: err
                 });
             };
             // resolve(docs);
             console.log(docs);
-            res.send({ items: docs });
+            cb({ items: docs });
 
         });
     }

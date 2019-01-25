@@ -1,20 +1,37 @@
 const app = require('../app')
 const request = require('supertest')(app);
 
+// describe('api login', () => {
+//     it('login to the system', () => {
+//         let data = { username: 'admin', password: 'admin' };
+//         request
+//             .post('/api/login')
+//             .send(data)
+//             .expect({ message: 'Authentication successful!' });
+//     });
+// });
+
 describe('api login', () => {
-    it('login to the system', async () => {
+    it('login to the system', () => {
         let data = { username: 'admin', password: 'admin' };
-        request
-            .post('/api/login')
-            .send(data)
-            .expect({ message: 'Authentication successful!' });
+        request.post('/api/login').send(data).expect(200);
+        
     });
 });
 
+
 describe('api/orders', () => {
-    it('get all orders of the system', async () => {
+    it('get all orders of the system', () => {
         request
-            .get('/api/view_orders')
-            .expect({ message: 'Auth token is not supplied' });
+            .post('/api/view_orders')
+            .expect(403);
+    });
+});
+
+describe('api/order', () => {
+    it('get all orders of the system', () => {
+        request
+            .post('/api/view_order')
+            .expect(403);
     });
 });

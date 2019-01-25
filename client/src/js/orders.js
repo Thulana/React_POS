@@ -75,6 +75,7 @@ class Orders extends React.Component {
                             this.state.data.map((item, key) => {
                                 val = val + 1
                                 return (
+                                
                                     <tr key={key}>
                                         <td>{val}</td>
                                         <td>{item.id}</td>
