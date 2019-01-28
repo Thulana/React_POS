@@ -8,7 +8,7 @@ test('login success', (done) => {
     })
 });
 
-test('login fail', (done) => {
+test('login fail - unvalid user', (done) => {
     authController.login('tk','tk1',(data) => {
         // console.log(data);
         expect(data.success).toBe(false);
@@ -16,3 +16,10 @@ test('login fail', (done) => {
     })
 });
 
+test('login fail - unvalid request', (done) => {
+    authController.login('','',(data) => {
+        // console.log(data);
+        expect(data.success).toBe(false);
+        done();
+    })
+});

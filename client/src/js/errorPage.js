@@ -7,7 +7,7 @@ const errorPage = () => {
             <p>
                 We couldn't find what you are looking for.
             </p>
-            
+
         </Jumbotron>
 
     )

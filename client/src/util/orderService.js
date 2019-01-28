@@ -3,11 +3,11 @@ import authHeader from "./authHeader";
 
 
 export const orderService = {
-    save_order,view_order
+    save_order, view_order
 };
 
 
-function save_order(order){
+function save_order(order) {
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
@@ -17,20 +17,20 @@ function save_order(order){
         .then(res => res.json())
         .then(
             (result) => {
-                console.log('save',result);
+                console.log('save', result);
                 return {
 
-                    result:result
+                    result: result
                 };
             },
-            (error) =>{
-                console.log('save',error);
+            (error) => {
+                console.log('save', error);
                 return error
             }
         )
 }
 
-function view_order(oid){
+function view_order(oid) {
     const requestOptions = {
         method: 'POST',
         headers: authHeader(),
@@ -42,7 +42,7 @@ function view_order(oid){
             (error) => {
                 return error
             },
-            (result) =>{
+            (result) => {
                 return result
             }
         )

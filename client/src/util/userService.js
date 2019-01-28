@@ -11,7 +11,7 @@ function login(username, password) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     };
-    
+
     console.log(requestOptions);
     return fetch(`/api/login`, requestOptions)
         .then(handleResponse)

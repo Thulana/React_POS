@@ -88,18 +88,20 @@ module.exports = {
                     cb({ value: numReplaced })
                     console.log("order edited", numReplaced);
                 });
-            } else if (order['_id']) {
-                Datastore.orders.update({ _id: order['_id'] }, order, {}, function (err, numReplaced) {
-                    if (err) {
-                        cb({
-                            success: false,
-                            message: err
-                        });
-                    };
-                    cb({ value: numReplaced })
-                    // console.log("order edited",numReplaced);
-                });
-            } else {
+            } 
+            // else if (order['_id']) {
+            //     Datastore.orders.update({ _id: order['_id'] }, order, {}, function (err, numReplaced) {
+            //         if (err) {
+            //             cb({
+            //                 success: false,
+            //                 message: err
+            //             });
+            //         };
+            //         cb({ value: numReplaced })
+            //         // console.log("order edited",numReplaced);
+            //     });
+            // }
+             else {
                 Datastore.orders.insert(order, function (err, newDoc) {   // Callback is optional
                     if (err) {
                         cb({

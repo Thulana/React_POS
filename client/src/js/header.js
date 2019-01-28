@@ -26,7 +26,7 @@ const Header = () => (
                     <Navbar.Link href="/orders">Orders</Navbar.Link>
                 </Navbar.Text>
                 <Navbar.Text pullRight>
-                <Navbar.Link href = "" onClick={handleClick}>Logout</Navbar.Link>
+                    <Navbar.Link href="" onClick={handleClick}>Logout</Navbar.Link>
                 </Navbar.Text>
             </Navbar.Collapse>
         </Navbar>

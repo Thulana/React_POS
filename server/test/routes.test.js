@@ -54,10 +54,18 @@ describe('api/orders', () => {
     });
 });
 
-describe('api/order', () => {
-    it('get all orders of the system', () => {
-        request
-            .post('/api/view_order')
-            .expect(403);
-    });
+// describe('api/order', () => {
+//     it('get all orders of the system', () => {
+//         request
+//             .post('/api/view_order')
+//             .expect(403);
+//     });
+// });
+
+describe('api/get_items', () => {
+  it('get all items of the system', () => {
+      request
+          .post('/api/get_items')
+          .expect(403);
+  });
 });
