@@ -9,6 +9,14 @@ const options = {
       version: '1.0.0',
       description: 'Pos System swagger doc',
     },
+    securityDefinitions: {
+      JWT: {
+        type: 'apiKey',
+        description: 'JWT authorization of an API',
+        name: 'Authorization',
+        in: 'header',
+      },
+    },
   },
   // List of files to be processes. You can also set globs './routes/*.js'
   apis: ['./routes/*.js'],

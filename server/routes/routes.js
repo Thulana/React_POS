@@ -16,15 +16,11 @@ module.exports.setup = function (app) {
   /**
  * @swagger
  * /api/get_items:
- *   post:
+ *   get:
  *     description: Fetch all the items in the system
+ *     security:
+ *       - JWT: [] 
  *     tags: [Items]
- *     parameters:
- *       - name: auth token
- *         description: jwt auth token
- *         in: json
- *         required: true
- *         type: string
  *     produces:
  *       - application/json
  *     responses:
@@ -43,15 +39,11 @@ module.exports.setup = function (app) {
   /**
  * @swagger
  * /api/view_orders:
- *   post:
+ *   get:
  *     description: Fetch all the open orders in the system
  *     tags: [Orders]
- *     parameters:
- *       - name: auth token
- *         description: jwt auth token
- *         in: json
- *         required: true
- *         type: string
+ *     security:
+ *       - JWT: [] 
  *     produces:
  *       - application/json
  *     responses:
@@ -83,14 +75,11 @@ module.exports.setup = function (app) {
    *   post:
    *     description: Fetch all the details of a given order
    *     tags: [Orders]
+   *     security:
+ *       - JWT: [] 
    *     produces:
    *       - application/json
    *     parameters:
-   *       - name: auth token
-   *         description: jwt auth token
-   *         in: json
-   *         required: true
-   *         type: string
    *       - name: oid
    *         description: Order Id
    *         in: json
@@ -115,14 +104,11 @@ module.exports.setup = function (app) {
     *   post:
     *     description: Save order to the database
     *     tags: [Orders]
+    *     security:
+ *       - JWT: [] 
     *     produces:
     *       - application/json
     *     parameters:
-    *       - name: auth token
-    *         description: jwt auth token
-    *         in: json
-    *         required: true
-    *         type: string
     *       - name: order
     *         description: Order object
     *         in: json

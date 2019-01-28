@@ -177,7 +177,7 @@ class viewOrder extends React.Component {
         newItem['id'] = '';
         newItem['name'] = '';
         newItem['price'] = 0;
-        newItem['qty'] = '';
+        newItem['qty'] = 1;
         items.push(newItem);
         this.setState({
             items: items
@@ -294,7 +294,14 @@ class viewOrder extends React.Component {
                                                     />
 
                                                 </td>
-                                                <td>{item.price * this.state.order.items[item.id]}</td>
+                                                {/* <td>{item.price * this.state.order.items[item.id]}</td> */}
+                                                {
+                                                    isNaN(item.price * this.state.order.items[item.id]) ? (
+                                                        <td>{0}</td>
+                                                    ) : (
+                                                            <td>{item.price * this.state.order.items[item.id]}</td>
+                                                        )
+                                                }
                                                 <td><Button bsStyle="danger" onClick={() => { this.removeItem(item.id) }}>X</Button></td>
                                             </tr>
                                         )
@@ -312,6 +319,7 @@ class viewOrder extends React.Component {
                                                         type="number"
                                                         className="form-control"
                                                         value={this.state.order.items[item.id]}
+                                                        // value = { isNaN(this.state.order.items[item.id]) ? ( console.log("working lol")) : (console.log("working lolol"))}
                                                         placeholder="Enter qty"
                                                         onChange={e => this.changeSubTotal(e, item.id)}
                                                     />
